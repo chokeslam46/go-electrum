@@ -7,8 +7,8 @@ type GetBalanceResp struct {
 
 // GetBalanceResult represents the content of the result field in the response to GetBalance().
 type GetBalanceResult struct {
-	Confirmed   float64 `json:"confirmed"`
-	Unconfirmed float64 `json:"unconfirmed"`
+	Confirmed   uint64 `json:"confirmed"`
+	Unconfirmed uint64 `json:"unconfirmed"`
 }
 
 // GetBalance returns the confirmed and unconfirmed balance for a scripthash.
@@ -34,7 +34,7 @@ type GetMempoolResp struct {
 type GetMempoolResult struct {
 	Hash   string `json:"tx_hash"`
 	Height int32  `json:"height"`
-	Fee    uint32 `json:"fee,omitempty"`
+	Fee    uint64 `json:"fee,omitempty"`
 }
 
 // GetHistory returns the confirmed and unconfirmed history for a scripthash.
