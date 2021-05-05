@@ -4,11 +4,11 @@ import (
 	"log"
 	"time"
 
-	"github.com/checksum0/go-electrum/electrum"
+	"github.com/chokeslam46/go-electrum/electrum"
 )
 
 func main() {
-	server := electrum.NewServer()
+	server := electrum.NewServer(&electrum.DefaultServerOptions)
 	if err := server.ConnectTCP("bch.imaginary.cash:50001"); err != nil {
 		log.Fatal(err)
 	}
@@ -27,4 +27,6 @@ func main() {
 			time.Sleep(60 * time.Second)
 		}
 	}()
+
+	defer server.Shutdown()
 }

@@ -41,6 +41,11 @@ var (
 
 	// ErrDeprecated throws an error if this RPC call is deprecated.
 	ErrDeprecated = errors.New("RPC call has been deprecated")
+
+	DefaultServerOptions = ServerOptions{
+		ConnTimeout: 30 * time.Second,
+		ReqTimeout:  30 * time.Second,
+	}
 )
 
 // Transport provides interface to server transport.
@@ -51,7 +56,7 @@ type Transport interface {
 	Close() error
 }
 
-// TCPTransport store informations about the TCP transport.
+// TCPTransport store information about the TCP transport.
 type TCPTransport struct {
 	conn      net.Conn
 	responses chan []byte
@@ -240,7 +245,7 @@ func (s *Server) listen() {
 		}
 		select {
 		case <-s.quit:
-			break
+			return
 		case err := <-s.transport.Errors():
 			s.Error <- err
 			s.Shutdown()
@@ -255,7 +260,7 @@ func (s *Server) listen() {
 				if DebugMode {
 					log.Printf("Unmarshal received message failed: %v", err)
 				}
-				result.err = fmt.Errorf("Unmarshal received message failed: %v", err)
+				result.err = fmt.Errorf("unmarshal received message failed: %v", err)
 			} else if msg.Error != nil {
 				result.err = msg.Error
 			}
