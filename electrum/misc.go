@@ -55,7 +55,7 @@ func (s *Server) GetFeeHistogram() (map[uint32]float64, error) {
 
 	feeMap := make(map[uint32]float64)
 	for i := 0; i < len(resp.Result); i++ {
-		feeMap[uint32(resp.Result[i][0])] = resp.Result[i][1]
+		feeMap[uint32(resp.Result[i][1])] = resp.Result[i][0]
 	}
 
 	return feeMap, err
