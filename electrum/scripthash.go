@@ -7,8 +7,8 @@ type GetBalanceResp struct {
 
 // GetBalanceResult represents the content of the result field in the response to GetBalance().
 type GetBalanceResult struct {
-	Confirmed   uint64 `json:"confirmed"`
-	Unconfirmed uint64 `json:"unconfirmed"`
+	Confirmed   int64 `json:"confirmed"`
+	Unconfirmed int64 `json:"unconfirmed"`
 }
 
 // GetBalance returns the confirmed and unconfirmed balance for a scripthash.
