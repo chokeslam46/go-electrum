@@ -39,13 +39,13 @@ func (s *Server) GetRelayFee() (float32, error) {
 
 // GetFeeHistogramResp represents the response to GetFee().
 type getFeeHistogramResp struct {
-	Result [][2]uint64 `json:"result"`
+	Result [][2]float64 `json:"result"`
 }
 
 // GetFeeHistogram returns a histogram of the fee rates paid by transactions in the
 // memory pool, weighted by transacation size.
 // https://electrumx.readthedocs.io/en/latest/protocol-methods.html#mempool-get-fee-histogram
-func (s *Server) GetFeeHistogram() (map[uint32]uint64, error) {
+func (s *Server) GetFeeHistogram() (map[uint32]float64, error) {
 	var resp getFeeHistogramResp
 
 	err := s.request("mempool.get_fee_histogram", []interface{}{}, &resp)
@@ -53,7 +53,7 @@ func (s *Server) GetFeeHistogram() (map[uint32]uint64, error) {
 		return nil, err
 	}
 
-	feeMap := make(map[uint32]uint64)
+	feeMap := make(map[uint32]float64)
 	for i := 0; i < len(resp.Result); i++ {
 		feeMap[uint32(resp.Result[i][0])] = resp.Result[i][1]
 	}
