@@ -225,6 +225,18 @@ type apiErr struct {
 	Message string `json:"message"`
 }
 
+func (e *apiErr) UnmarshalJSON(data []byte) (err error) {
+	var str string
+	if err = json.Unmarshal(data, &str); err == nil {
+		e.Code = -1
+		e.Message = str
+		return
+	}
+
+	type aErr apiErr
+	return json.Unmarshal(data, (*aErr)(e))
+}
+
 func (e *apiErr) Error() string {
 	return fmt.Sprintf("errNo: %d, errMsg: %s", e.Code, e.Message)
 }
